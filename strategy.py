@@ -49,7 +49,8 @@ def place_orders(info):
             bid_size = 2 - fish
             ask_size = 0
             bid = shells // 2 #to modify 
-            requests.post(url + '/order/%s' % key, {'shells': -bid})
+            for i in range(0,bid_size):
+                requests.post(url + '/order/%s' % key, {'shells': -bid})
         bid_hist.append(bid)
         bid_size_hist.append(bid_size)
         ask_size_hist.append(ask_size)
@@ -78,15 +79,8 @@ def place_orders(info):
                 else: #some villagers died
                     bid =  min( 2 * max(prices_hist), shells-2) #2*ask - price
             bid_hist.append(bid)
-            requests.post(url + '/order/%s' % key, {'shells': -bid})
-
-    # Naive strategy
-    if fish > 2:
-        for i in range(0, fish - 2):
-            requests.post(url + '/order/%s' % key, {'shells': last_price})
-    if fish < 2 :
-        for i in range(0, 2 - fish):
-            requests.post(url + '/order/%s' % key, {'shells': -int(last_price * 1.2)})
+            for i in range(bid_size):
+                requests.post(url + '/order/%s' % key, {'shells': -bid})
 
 while True:
     try:
