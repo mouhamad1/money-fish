@@ -6,8 +6,8 @@ import math
 import numpy as np
 from numba import njit, prange
 
-url = 'http://localhost:5000' # 'https://money.fish'
-
+#url = 'http://localhost:5000' 
+url =  'https://money.fish'
 key = 'db1579c949d0ff926571fb87fde937b1f93f4085'
 # Register the player
 r = requests.post(url + '/register', {'name': 'Robinson', 'key': key})
@@ -76,8 +76,8 @@ def place_orders(info):
     if day == 1:
         exp_fishes,std_fishes = expected_fishes(N=villagers,day=1,theta0=theta0)
         predicted_fishes.append(exp_fishes)
-        sell_strong = (exp_fishes + 2*stsd_fishes/np.sqrt(trial) - 2*villagers < 0)
-        sell_maybe = (exp_fishes - 2*stsd_fishes/np.sqrt(trial)<= 2 *villagers <=  exp_fishes + 2*std_fishes/np.sqrt(trial))
+        sell_strong = (exp_fishes + 2*std_fishes/np.sqrt(trial) - 2*villagers < 0)#sell signal, if True great incentive to sell high
+        sell_maybe = (exp_fishes - 2*std_fishes/np.sqrt(trial)<= 2 *villagers <=  exp_fishes + 2*std_fishes/np.sqrt(trial))
         if fish > 2:
             ask_size = fish - 2
             bid_size = 0 # to see where is the price
